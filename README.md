@@ -15,25 +15,25 @@ For details on their usage, see the source or the KDoc.
 
 ## Dependency Specification
 
-The latest version of the library is 1.0, and it may be obtained from the Maven Central repository.
+The latest version of the library is 1.1, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
       <groupId>net.pwall.json</groupId>
       <artifactId>json-co-functions</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-co-functions:1.0'
+    implementation 'net.pwall.json:json-co-functions:1.1'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-co-functions:1.0")
+    implementation("net.pwall.json:json-co-functions:1.1")
 ```
 
 Peter Wall
 
-2022-05-31
+2022-06-05

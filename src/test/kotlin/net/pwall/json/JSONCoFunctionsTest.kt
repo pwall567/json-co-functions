@@ -28,12 +28,16 @@ package net.pwall.json
 import kotlin.test.Test
 import kotlin.test.expect
 import kotlinx.coroutines.runBlocking
+
 import net.pwall.json.JSONCoFunctions.coOutputChar
 import net.pwall.json.JSONCoFunctions.coOutputString
+import net.pwall.json.JSONCoFunctions.outputChar
+import net.pwall.json.JSONCoFunctions.outputString
+import net.pwall.util.CoOutput
 
 class JSONCoFunctionsTest {
 
-    @Test fun `should format string correctly`() = runBlocking {
+    @Test fun `should format string correctly using lambda`() = runBlocking {
         expect("\"hello\"") { coOutputStringCapture("hello") }
         expect("\"hello\\n\"") { coOutputStringCapture("hello\n") }
         expect("\"\"") { coOutputStringCapture("") }
@@ -48,7 +52,18 @@ class JSONCoFunctionsTest {
         return String(charArray, 0, i)
     }
 
-    @Test fun `should format single char`() = runBlocking {
+    @Test fun `should format string correctly using extension function`() = runBlocking {
+        expect("\"hello\"") { outputStringCapture("hello") }
+        expect("\"hello\\n\"") { outputStringCapture("hello\n") }
+        expect("\"\"") { outputStringCapture("") }
+        expect("\"mdash \\u2014 \\r\\n\"") { outputStringCapture("mdash \u2014 \r\n") }
+        expect("\"mdash \u2014 \\r\\n\"") { outputStringCapture("mdash \u2014 \r\n", true) }
+    }
+
+    private suspend fun outputStringCapture(s: String, includeNonASCII: Boolean = false) =
+            CoCapture().apply { outputString(s, includeNonASCII) }.toString()
+
+    @Test fun `should format single char using lambda`() = runBlocking {
         expect("A") { coOutputCharCapture('A') }
         expect("\\b") { coOutputCharCapture('\b') }
         expect("\\f") { coOutputCharCapture('\u000C') }
@@ -64,6 +79,33 @@ class JSONCoFunctionsTest {
         var i = 0
         coOutputChar(ch, includeNonASCII) { charArray[i++] = it }
         return String(charArray, 0, i)
+    }
+
+    @Test fun `should format single char using extension function`() = runBlocking {
+        expect("A") { outputCharCapture('A') }
+        expect("\\b") { outputCharCapture('\b') }
+        expect("\\f") { outputCharCapture('\u000C') }
+        expect("\\n") { outputCharCapture('\n') }
+        expect("\\r") { outputCharCapture('\r') }
+        expect("\\t") { outputCharCapture('\t') }
+        expect("\\u2014") { outputCharCapture('\u2014') }
+        expect("\u2014") { outputCharCapture('\u2014', true) }
+    }
+
+    private suspend fun outputCharCapture(ch: Char, includeNonASCII: Boolean = false) =
+            CoCapture().apply { outputChar(ch, includeNonASCII) }.toString()
+
+    class CoCapture(size: Int = 256) : CoOutput {
+
+        private val array = CharArray(size)
+        private var index = 0
+
+        override suspend fun invoke(ch: Char) {
+            array[index++] = ch
+        }
+
+        override fun toString() = String(array, 0, index)
+
     }
 
 }

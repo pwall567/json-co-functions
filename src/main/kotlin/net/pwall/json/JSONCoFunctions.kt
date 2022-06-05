@@ -25,7 +25,9 @@
 
 package net.pwall.json
 
-import net.pwall.util.CoIntOutput.coOutput4Hex
+import net.pwall.util.CoIntOutput.output4Hex
+import net.pwall.util.CoOutput
+import net.pwall.util.output
 
 /**
  * Non-blocking functions to help with JSON string output.
@@ -39,49 +41,64 @@ object JSONCoFunctions {
      * ASCII range (`0x20` to `0x7E`) are output as Unicode escape sequences unless the `includeNonASCII` flag is set to
      * `true`.
      */
-    suspend fun coOutputString(s: CharSequence, includeNonASCII: Boolean = false, outFunction: suspend (Char) -> Unit) {
-        outFunction('"')
-        for (i in s.indices)
-            coOutputChar(s[i], includeNonASCII, outFunction)
-        outFunction('"')
+    suspend fun coOutputString(cs: CharSequence, includeNonASCII: Boolean = false, out: CoOutput) =
+            out.outputString(cs, includeNonASCII)
+
+    /**
+     * Output a [CharSequence] in JSON quoted string form (applying JSON escaping rules).  The characters above the
+     * ASCII range (`0x20` to `0x7E`) are output as Unicode escape sequences unless the `includeNonASCII` flag is set to
+     * `true`.
+     */
+    suspend fun CoOutput.outputString(cs: CharSequence, includeNonASCII: Boolean = false) {
+        output('"')
+        for (i in cs.indices)
+            outputChar(cs[i], includeNonASCII)
+        output('"')
     }
 
     /**
      * Output a single character applying JSON escaping rules.  The characters above the ASCII range (`0x20` to `0x7E`)
      * are output as Unicode escape sequences unless the `includeNonASCII` flag is set to `true`.
      */
-    suspend fun coOutputChar(ch: Char, includeNonASCII: Boolean = false, outFunction: suspend (Char) -> Unit) {
+    suspend fun coOutputChar(ch: Char, includeNonASCII: Boolean = false, out: CoOutput) =
+            out.outputChar(ch, includeNonASCII)
+
+    /**
+     * Output a single character applying JSON escaping rules.  The characters above the ASCII range (`0x20` to `0x7E`)
+     * are output as Unicode escape sequences unless the `includeNonASCII` flag is set to `true`.
+     */
+    suspend fun CoOutput.outputChar(ch: Char, includeNonASCII: Boolean = false) {
         when {
             ch == '"' || ch == '\\' -> {
-                outFunction('\\')
-                outFunction(ch)
+                output('\\')
+                output(ch)
             }
             ch == '\b' -> {
-                outFunction('\\')
-                outFunction('b')
+                output('\\')
+                output('b')
             }
             ch == '\u000C' -> {
-                outFunction('\\')
-                outFunction('f')
+                output('\\')
+                output('f')
             }
             ch == '\n' -> {
-                outFunction('\\')
-                outFunction('n')
+                output('\\')
+                output('n')
             }
             ch == '\r' -> {
-                outFunction('\\')
-                outFunction('r')
+                output('\\')
+                output('r')
             }
             ch == '\t' -> {
-                outFunction('\\')
-                outFunction('t')
+                output('\\')
+                output('t')
             }
             ch < ' ' || ch in '\u007F' .. '\u009F' || ch >= '\u00A0' && !includeNonASCII -> {
-                outFunction('\\')
-                outFunction('u')
-                coOutput4Hex(ch.code, outFunction)
+                output('\\')
+                output('u')
+                output4Hex(ch.code)
             }
-            else -> outFunction(ch)
+            else -> output(ch)
         }
     }
 
