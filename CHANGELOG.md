@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.2] - 2023-04-23
+### Changed
+- `pom.xml`: updated Kotlin and dependency versions
+
 ## [1.1] - 2022-06-05
 ### Changed
 - `JSONCoFunctions`: extended to use extension functions
