@@ -2,7 +2,7 @@
  * @(#) JSONCoFunctions.java
  *
  * json-co-functions  Non-blocking functions for JSON formatting
- * Copyright (c) 2022 Peter Wall
+ * Copyright (c) 2022, 2023 Peter Wall
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
 
 package net.pwall.json
 
-import net.pwall.util.CoIntOutput.output4Hex
+import net.pwall.util.CoIntOutput.output4HexLC
 import net.pwall.util.CoOutput
 import net.pwall.util.output
 
@@ -93,10 +93,10 @@ object JSONCoFunctions {
                 output('\\')
                 output('t')
             }
-            ch < ' ' || ch in '\u007F' .. '\u009F' || ch >= '\u00A0' && !includeNonASCII -> {
+            ch < ' ' || ch in '\u007F'..'\u009F' || ch >= '\u00A0' && !includeNonASCII -> {
                 output('\\')
                 output('u')
-                output4Hex(ch.code)
+                output4HexLC(ch.code)
             }
             else -> output(ch)
         }

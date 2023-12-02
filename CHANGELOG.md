@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.4] - 2023-12-02
+### Changed
+- `JSONCoFunctions`: use lower case for hexadecimal \uxxxx constructs
+- `pom.xml`: updated dependency versions
+
 ## [1.3] - 2023-07-24
 ### Changed
 - `pom.xml`: updated Kotlin and dependency versions

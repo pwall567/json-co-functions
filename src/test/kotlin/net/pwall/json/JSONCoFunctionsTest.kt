@@ -42,6 +42,7 @@ class JSONCoFunctionsTest {
         expect("\"hello\\n\"") { coOutputStringCapture("hello\n") }
         expect("\"\"") { coOutputStringCapture("") }
         expect("\"mdash \\u2014 \\r\\n\"") { coOutputStringCapture("mdash \u2014 \r\n") }
+        expect("\"euro \\u20ac \\r\\n\"") { coOutputStringCapture("euro \u20AC \r\n") }
         expect("\"mdash \u2014 \\r\\n\"") { coOutputStringCapture("mdash \u2014 \r\n", true) }
     }
 
@@ -57,6 +58,7 @@ class JSONCoFunctionsTest {
         expect("\"hello\\n\"") { outputStringCapture("hello\n") }
         expect("\"\"") { outputStringCapture("") }
         expect("\"mdash \\u2014 \\r\\n\"") { outputStringCapture("mdash \u2014 \r\n") }
+        expect("\"euro \\u20ac \\r\\n\"") { outputStringCapture("euro \u20AC \r\n") }
         expect("\"mdash \u2014 \\r\\n\"") { outputStringCapture("mdash \u2014 \r\n", true) }
     }
 
@@ -71,6 +73,7 @@ class JSONCoFunctionsTest {
         expect("\\r") { coOutputCharCapture('\r') }
         expect("\\t") { coOutputCharCapture('\t') }
         expect("\\u2014") { coOutputCharCapture('\u2014') }
+        expect("\\u20ac") { coOutputCharCapture('\u20AC') }
         expect("\u2014") { coOutputCharCapture('\u2014', true) }
     }
 
@@ -89,6 +92,7 @@ class JSONCoFunctionsTest {
         expect("\\r") { outputCharCapture('\r') }
         expect("\\t") { outputCharCapture('\t') }
         expect("\\u2014") { outputCharCapture('\u2014') }
+        expect("\\u20ac") { outputCharCapture('\u20AC') }
         expect("\u2014") { outputCharCapture('\u2014', true) }
     }
 
