@@ -26,8 +26,9 @@
 package net.pwall.json
 
 import kotlin.test.Test
-import kotlin.test.expect
 import kotlinx.coroutines.runBlocking
+
+import io.kstuff.test.shouldBe
 
 import net.pwall.json.JSONCoFunctions.coOutputChar
 import net.pwall.json.JSONCoFunctions.coOutputString
@@ -38,12 +39,12 @@ import net.pwall.util.CoOutput
 class JSONCoFunctionsTest {
 
     @Test fun `should format string correctly using lambda`() = runBlocking {
-        expect("\"hello\"") { coOutputStringCapture("hello") }
-        expect("\"hello\\n\"") { coOutputStringCapture("hello\n") }
-        expect("\"\"") { coOutputStringCapture("") }
-        expect("\"mdash \\u2014 \\r\\n\"") { coOutputStringCapture("mdash \u2014 \r\n") }
-        expect("\"euro \\u20ac \\r\\n\"") { coOutputStringCapture("euro \u20AC \r\n") }
-        expect("\"mdash \u2014 \\r\\n\"") { coOutputStringCapture("mdash \u2014 \r\n", true) }
+        coOutputStringCapture("hello") shouldBe "\"hello\""
+        coOutputStringCapture("hello\n") shouldBe "\"hello\\n\""
+        coOutputStringCapture("") shouldBe "\"\""
+        coOutputStringCapture("mdash \u2014 \r\n") shouldBe "\"mdash \\u2014 \\r\\n\""
+        coOutputStringCapture("euro \u20AC \r\n") shouldBe "\"euro \\u20ac \\r\\n\""
+        coOutputStringCapture("mdash \u2014 \r\n", true) shouldBe "\"mdash \u2014 \\r\\n\""
     }
 
     private suspend fun coOutputStringCapture(s: String, includeNonASCII: Boolean = false): String {
@@ -54,27 +55,27 @@ class JSONCoFunctionsTest {
     }
 
     @Test fun `should format string correctly using extension function`() = runBlocking {
-        expect("\"hello\"") { outputStringCapture("hello") }
-        expect("\"hello\\n\"") { outputStringCapture("hello\n") }
-        expect("\"\"") { outputStringCapture("") }
-        expect("\"mdash \\u2014 \\r\\n\"") { outputStringCapture("mdash \u2014 \r\n") }
-        expect("\"euro \\u20ac \\r\\n\"") { outputStringCapture("euro \u20AC \r\n") }
-        expect("\"mdash \u2014 \\r\\n\"") { outputStringCapture("mdash \u2014 \r\n", true) }
+        outputStringCapture("hello") shouldBe "\"hello\""
+        outputStringCapture("hello\n") shouldBe "\"hello\\n\""
+        outputStringCapture("") shouldBe "\"\""
+        outputStringCapture("mdash \u2014 \r\n") shouldBe "\"mdash \\u2014 \\r\\n\""
+        outputStringCapture("euro \u20AC \r\n") shouldBe "\"euro \\u20ac \\r\\n\""
+        outputStringCapture("mdash \u2014 \r\n", true) shouldBe "\"mdash \u2014 \\r\\n\""
     }
 
     private suspend fun outputStringCapture(s: String, includeNonASCII: Boolean = false) =
             CoCapture().apply { outputString(s, includeNonASCII) }.toString()
 
     @Test fun `should format single char using lambda`() = runBlocking {
-        expect("A") { coOutputCharCapture('A') }
-        expect("\\b") { coOutputCharCapture('\b') }
-        expect("\\f") { coOutputCharCapture('\u000C') }
-        expect("\\n") { coOutputCharCapture('\n') }
-        expect("\\r") { coOutputCharCapture('\r') }
-        expect("\\t") { coOutputCharCapture('\t') }
-        expect("\\u2014") { coOutputCharCapture('\u2014') }
-        expect("\\u20ac") { coOutputCharCapture('\u20AC') }
-        expect("\u2014") { coOutputCharCapture('\u2014', true) }
+        coOutputCharCapture('A') shouldBe "A"
+        coOutputCharCapture('\b') shouldBe "\\b"
+        coOutputCharCapture('\u000C') shouldBe "\\f"
+        coOutputCharCapture('\n') shouldBe "\\n"
+        coOutputCharCapture('\r') shouldBe "\\r"
+        coOutputCharCapture('\t') shouldBe "\\t"
+        coOutputCharCapture('\u2014') shouldBe "\\u2014"
+        coOutputCharCapture('\u20AC') shouldBe "\\u20ac"
+        coOutputCharCapture('\u2014', true) shouldBe "\u2014"
     }
 
     private suspend fun coOutputCharCapture(ch: Char, includeNonASCII: Boolean = false): String {
@@ -85,15 +86,15 @@ class JSONCoFunctionsTest {
     }
 
     @Test fun `should format single char using extension function`() = runBlocking {
-        expect("A") { outputCharCapture('A') }
-        expect("\\b") { outputCharCapture('\b') }
-        expect("\\f") { outputCharCapture('\u000C') }
-        expect("\\n") { outputCharCapture('\n') }
-        expect("\\r") { outputCharCapture('\r') }
-        expect("\\t") { outputCharCapture('\t') }
-        expect("\\u2014") { outputCharCapture('\u2014') }
-        expect("\\u20ac") { outputCharCapture('\u20AC') }
-        expect("\u2014") { outputCharCapture('\u2014', true) }
+        outputCharCapture('A') shouldBe "A"
+        outputCharCapture('\b') shouldBe "\\b"
+        outputCharCapture('\u000C') shouldBe "\\f"
+        outputCharCapture('\n') shouldBe "\\n"
+        outputCharCapture('\r') shouldBe "\\r"
+        outputCharCapture('\t') shouldBe "\\t"
+        outputCharCapture('\u2014') shouldBe "\\u2014"
+        outputCharCapture('\u20AC') shouldBe "\\u20ac"
+        outputCharCapture('\u2014', true) shouldBe "\u2014"
     }
 
     private suspend fun outputCharCapture(ch: Char, includeNonASCII: Boolean = false) =
