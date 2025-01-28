@@ -23,11 +23,11 @@
  * SOFTWARE.
  */
 
-package net.pwall.json
+package io.kstuff.json
 
-import net.pwall.util.CoIntOutput.output4HexLC
-import net.pwall.util.CoOutput
-import net.pwall.util.output
+import io.kstuff.util.CoIntOutput.output4HexLC
+import io.kstuff.util.CoOutput
+import io.kstuff.util.output
 
 /**
  * Non-blocking functions to help with JSON string output.

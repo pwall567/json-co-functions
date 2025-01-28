@@ -23,18 +23,18 @@
  * SOFTWARE.
  */
 
-package net.pwall.json
+package io.kstuff.json
 
 import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 
 import io.kstuff.test.shouldBe
+import io.kstuff.util.CoOutput
 
-import net.pwall.json.JSONCoFunctions.coOutputChar
-import net.pwall.json.JSONCoFunctions.coOutputString
-import net.pwall.json.JSONCoFunctions.outputChar
-import net.pwall.json.JSONCoFunctions.outputString
-import net.pwall.util.CoOutput
+import io.kstuff.json.JSONCoFunctions.coOutputChar
+import io.kstuff.json.JSONCoFunctions.coOutputString
+import io.kstuff.json.JSONCoFunctions.outputChar
+import io.kstuff.json.JSONCoFunctions.outputString
 
 class JSONCoFunctionsTest {
 
